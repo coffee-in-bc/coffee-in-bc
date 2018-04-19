@@ -1,0 +1,97 @@
+/**
+ * Coffee chain model
+ */
+
+namespace org.coffeechain
+
+//===========================================================
+// PARTICIPANTS
+//===========================================================
+
+participant Buyer identified by buyerId {
+  o String buyerId
+  o String firstName
+  o String lastName
+}
+
+participant Grower identified by growerId {
+  o String growerId
+  o String firstName
+  o String lastName
+  o String farmName
+  o Integer farmAltitude range=[0,]
+  o String farmRegion
+  o String[] coffeeTypes
+}
+
+participant Regulator identified by regulatorId {
+  o String regulatorId
+  o String regulatorOrgName
+}
+
+//===========================================================
+// ASSETS
+//===========================================================
+
+asset Coffee identified by coffeeId {
+  o String coffeeId
+  o String coffeeType
+  o Double quantityInStockInKg range=[0.0,]
+  o DateTime dateOfHarvest
+}
+
+asset Request identified by orderId {
+  o String orderId
+  o String coffeeType
+  o Double quantityInKg range=[0.0,]
+  o Integer maxPrice range=[500,]
+  o String region
+  o DateTime dateToReceive optional
+  --> Buyer buyer
+}
+
+asset Offer identified by offerId {
+  o String offerId
+  o String coffeeType
+  o Double quantityInKg range=[0.0,]
+  o Integer price range=[500,]
+  o Boolean accepted default=false
+  --> Grower grower
+  --> Buyer buyer
+}
+
+asset Certificate identified by certificateId {
+  o String certificateId
+  o String description
+  o Boolean valid default=false
+  --> Grower grower
+  --> Regulator issuer
+}
+
+//===========================================================
+// TRANSACTIONS
+//===========================================================
+
+transaction sendRequest {
+  --> Request request
+  o String orderId
+  o String coffeeType
+  o Double quantityInKg range=[0.0,]
+  o Integer maxPrice range=[500,]
+  o String region
+  o DateTime dateToReceive optional
+}
+
+transaction sendOffer {
+  --> Offer offer
+  --> Request request
+  o String offerId
+  o Integer price range=[0,]
+}
+
+transaction issueCertificate {
+  --> Certificate certificate
+  o String certificateId
+  o String description
+  o Boolean valid
+}
