@@ -20,8 +20,8 @@ Feature: Certficate
     Scenario: Chad can give certficiate to Alice
         When I use the identity rChad
         And I submit the following transaction of type org.coffeechain.IssueCertificate
-            | issuer          | grower           | certificateId | description |
-            | rChad@email.com | gAlice@email.com | Chad2Alice    | he has the best cf |
+            | issuer          | grower           | certificateId | description | valid |
+            | rChad@email.com | gAlice@email.com | Chad2Alice    | he has the best cf | true |
         Then I should have the following assets of type org.coffeechain.Certificate
             | certificateId | description | valid | grower | issuer |
             | Chad2Alice | he has the best cf | true | gAlice@email.com | rChad@email.com |
@@ -31,4 +31,4 @@ Feature: Certficate
             | rChad@email.com | gAlice@email.com | Chad2Alicei2    | he droped his quality | false |
         Then I should have the following assets of type org.coffeechain.Certificate
             | certificateId | description | valid | grower | issuer |
-            | Chad2Alicei2 | he droped his quality | false | gAlice@email.com | rChad@email.com |
+            | Chad2Alicei2 | he droped his quality | true | gAlice@email.com | rChad@email.com |

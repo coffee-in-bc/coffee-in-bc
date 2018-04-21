@@ -24,8 +24,8 @@ Feature: Sample
             | requestId | coffeeType | quantityInKg | maxPrice | region   | dateToReceive | buyer          |
             | r1        | Arabica    | 2            | 100000   | Southern | 2018-04-21    | bBob@email.com |
         And I have added the following assets of type org.coffeechain.Certificate
-            | certificateId | description  | grower           | issuer          |
-            | cer1          | good quality | gAlice@email.com | rChad@email.com |
+            | certificateId | description  | grower           | issuer          | valid |
+            | cer1          | good quality | gAlice@email.com | rChad@email.com | true |
         And I have issued the participant org.coffeechain.Grower#gAlice@email.com with the identity gAlice
         And I have issued the participant org.coffeechain.Buyer#bBob@email.com with the identity bBob
         And I have issued the participant org.coffeechain.Regulator#rChad@email.com with the identity rChad
@@ -49,20 +49,20 @@ Feature: Sample
     Scenario: Chad can read his Certificate
         When I use the identity rChad
         Then I should have the following assets of type org.coffeechain.Certificate
-            | certificateId | description  | grower           | issuer          |
-            | cer1          | good quality | gAlice@email.com | rChad@email.com |
+            | certificateId | description  | grower           | issuer          | valid |
+            | cer1          | good quality | gAlice@email.com | rChad@email.com | true |
 
     Scenario: Alice can read her Certificate
         When I use the identity gAlice
         Then I should have the following assets of type org.coffeechain.Certificate
-            | certificateId | description  | grower           | issuer          |
-            | cer1          | good quality | gAlice@email.com | rChad@email.com |
+            | certificateId | description  | grower           | issuer          | valid |
+            | cer1          | good quality | gAlice@email.com | rChad@email.com | true |
 
     Scenario: Bob can read Certificate
         When I use the identity bBob
         Then I should have the following assets of type org.coffeechain.Certificate
-            | certificateId | description  | grower           | issuer          |
-            | cer1          | good quality | gAlice@email.com | rChad@email.com |
+            | certificateId | description  | grower           | issuer          | valid |
+            | cer1          | good quality | gAlice@email.com | rChad@email.com | true |
 
     #===========================================================================================================================
     # CREATE ASSETS

@@ -67,6 +67,7 @@ async function issueCertificate(issueCertificate) {
     certificate.description = issueCertificate.description
     certificate.grower = issueCertificate.grower
     certificate.issuer = issueCertificate.issuer
+    certificate.valid = issueCertificate.valid
 
     const registryCertificate = await getAssetRegistry("org.coffeechain.Certificate")
     await registryCertificate.add(certificate)

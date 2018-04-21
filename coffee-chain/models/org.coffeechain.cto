@@ -62,7 +62,7 @@ asset Offer identified by offerId {
 asset Certificate identified by certificateId {
   o String certificateId
   o String description
-  o Boolean valid default=true
+  o Boolean valid
   --> Grower grower
   --> Regulator issuer
 }
@@ -99,7 +99,7 @@ transaction SendOffer {
 transaction IssueCertificate {
   --> Regulator issuer
   --> Grower grower
-  o Boolean valid default=true
+  o Boolean valid
   o String certificateId
   o String description
 }
