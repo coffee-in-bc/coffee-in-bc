@@ -20,8 +20,8 @@ Feature: Certficate
     Scenario: Chad can give certficiate to Alice
         When I use the identity rChad
         And I submit the following transaction of type org.coffeechain.IssueCertificate
-            | issuer          | grower           | certficiateId | description |
+            | issuer          | grower           | certificateId | description |
             | rChad@email.com | gAlice@email.com | Chad2Alice    | he has best cf |
         And I should have received the following event of type org.coffeechain.Certificate
-            | certficiateId | description | valid | grower | issuer |
+            | certificateId | description | valid | grower | issuer |
             | Chad2Alice | he had the best cf | true | gAlice@email.com | rChad@email.com |
