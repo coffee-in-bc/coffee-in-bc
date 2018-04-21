@@ -21,7 +21,7 @@ Feature: Certficate
         When I use the identity rChad
         And I submit the following transaction of type org.coffeechain.IssueCertificate
             | issuer          | grower           | certificateId | description |
-            | rChad@email.com | gAlice@email.com | Chad2Alice    | he has best cf |
-        And I should have received the following event of type org.coffeechain.Certificate
+            | rChad@email.com | gAlice@email.com | Chad2Alice    | he has the best cf |
+        Then I should have the following assets of type org.coffeechain.Certificate
             | certificateId | description | valid | grower | issuer |
-            | Chad2Alice | he had the best cf | true | gAlice@email.com | rChad@email.com |
+            | Chad2Alice | he has the best cf | true | gAlice@email.com | rChad@email.com |

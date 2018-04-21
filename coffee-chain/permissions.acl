@@ -94,11 +94,11 @@ rule GrowerCanPublishCoffee {
 
 // Certificate
 
-rule SubmitCertficate {
+rule SubmitCertificate {
     description: "Regulator can issue a certificate"
     participant(p): "org.coffeechain.Regulator"
     operation: CREATE, READ
-    resource(r): "org.coffeechain.Certificate"
+    resource(r): "org.coffeechain.IssueCertificate"
     condition: (p.getIdentifier() === r.issuer.getIdentifier())
     action: ALLOW
 }
