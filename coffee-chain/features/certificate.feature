@@ -25,3 +25,10 @@ Feature: Certficate
         Then I should have the following assets of type org.coffeechain.Certificate
             | certificateId | description | valid | grower | issuer |
             | Chad2Alice | he has the best cf | true | gAlice@email.com | rChad@email.com |
+        
+        And I submit the following transaction of type org.coffeechain.IssueCertificate
+            | issuer          | grower           | certificateId | description | valid |
+            | rChad@email.com | gAlice@email.com | Chad2Alicei2    | he droped his quality | false |
+        Then I should have the following assets of type org.coffeechain.Certificate
+            | certificateId | description | valid | grower | issuer |
+            | Chad2Alicei2 | he droped his quality | false | gAlice@email.com | rChad@email.com |

@@ -99,6 +99,7 @@ transaction SendOffer {
 transaction IssueCertificate {
   --> Regulator issuer
   --> Grower grower
+  o Boolean valid default=true
   o String certificateId
   o String description
 }
