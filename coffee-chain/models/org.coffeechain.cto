@@ -38,32 +38,31 @@ asset Coffee identified by coffeeId {
   o String coffeeType
   o Double quantityInStockInKg range=[0.0,]
   o DateTime dateOfHarvest
+  --> Grower grower
 }
 
-asset Request identified by orderId {
-  o String orderId
+asset Request identified by requestId {
+  o String requestId
   o String coffeeType
   o Double quantityInKg range=[0.0,]
   o Integer maxPrice range=[500,]
   o String region
-  o DateTime dateToReceive optional
+  o DateTime dateToReceive 
   --> Buyer buyer
 }
 
 asset Offer identified by offerId {
   o String offerId
-  o String coffeeType
-  o Double quantityInKg range=[0.0,]
   o Integer price range=[500,]
   o Boolean accepted default=false
+  --> Request request
   --> Grower grower
-  --> Buyer buyer
 }
 
 asset Certificate identified by certificateId {
   o String certificateId
   o String description
-  o Boolean valid default=false
+  o Boolean valid default=true
   --> Grower grower
   --> Regulator issuer
 }
@@ -72,26 +71,39 @@ asset Certificate identified by certificateId {
 // TRANSACTIONS
 //===========================================================
 
-transaction sendRequest {
-  --> Request request
-  o String orderId
+transaction PublishCoffee {
+  --> Grower grower
+  o String coffeeId
+  o String coffeeType
+  o Double quantityInStockInKg
+  o DateTime dateOfHarvest
+}
+
+transaction SendRequest {
+  --> Buyer buyer
+  o String requestId
   o String coffeeType
   o Double quantityInKg range=[0.0,]
   o Integer maxPrice range=[500,]
   o String region
-  o DateTime dateToReceive optional
+  o DateTime dateToReceive 
 }
 
-transaction sendOffer {
-  --> Offer offer
+transaction SendOffer {
   --> Request request
+  --> Grower grower
   o String offerId
   o Integer price range=[0,]
 }
 
-transaction issueCertificate {
-  --> Certificate certificate
+transaction IssueCertificate {
+  --> Regulator issuer
+  --> Grower grower
   o String certificateId
   o String description
-  o Boolean valid
 }
+
+//===========================================================
+// EVENTS
+//===========================================================
+
