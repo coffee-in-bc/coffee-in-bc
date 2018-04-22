@@ -2,6 +2,9 @@
 
 echo "Register Buyer: Workshop coffee"
 
+# 
+# Buyers
+# 
 curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
@@ -26,3 +29,21 @@ curl -X POST \
  }' \
 'http://localhost:3000/api/org.coffeechain.Buyer'
 
+# 
+# Growers
+# 
+echo "Register Grower: Ty"
+curl -X POST \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+-d '{
+  "$class": "org.coffeechain.Grower",
+  "growerId": "g001",
+  "firstName": "Tyf",
+  "lastName": "Tyl",
+  "farmName": "Ty Farm Co.",
+  "farmAltitude": 1500,
+  "farmRegion": "Dalat",
+  "coffeeTypes": ["Arabica","Robusta"]
+}' \
+'http://localhost:3000/api/org.coffeechain.Grower'
