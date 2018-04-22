@@ -49,7 +49,7 @@ curl -X POST \
 'http://localhost:3000/api/org.coffeechain.Grower'
 
 echo "Register Grower: Teo"
-curl -X POST \
+GROWER_002=$(curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 -d '{
@@ -63,12 +63,14 @@ curl -X POST \
   "coffeeTypes": ["Arabica","Robusta"]
 }' \
 'http://localhost:3000/api/org.coffeechain.Grower'
+)
+echo $GROWER_002
 
 # 
 # Regulator
 # 
-echo "Register Regulator: Ty"
-curl -X POST \
+echo "Register Regulator: VietGAP"
+REGULATOR_001=$(curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 -d '{
@@ -77,5 +79,23 @@ curl -X POST \
   "regulatorOrgName": "VietGAP"
 }' \
 'http://localhost:3000/api/org.coffeechain.Regulator'
+)
+echo $REGULATOR_001
 
-
+# 
+# Issue a Certificate
+# 
+echo "Register Regulator: Ty"
+curl -X POST \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+-d '{
+  "$class": "org.coffeechain.IssueCertificate",
+  "issuer": {},
+  "grower": {},
+  "valid": true,
+  "certificateId": "c001",
+  "description": "QC",
+  "timestamp": "2018-04-22T05:12:01.194Z"
+}' \
+'http://localhost:3000/api/org.coffeechain.Regulator'
