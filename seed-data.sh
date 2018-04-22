@@ -5,7 +5,7 @@ echo "Register Buyer: Workshop coffee"
 # 
 # Buyers
 # 
-curl -X POST \
+BUYER001=$(curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 -d '{
@@ -15,10 +15,12 @@ curl -X POST \
    "lastName": " "
  }' \
 'http://localhost:3000/api/org.coffeechain.Buyer'
+)
+echo $BUYER001
 
 echo "Register Buyer: Coffee Housecoffee"
 
-curl -X POST \
+BUYER002=$(curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 -d '{
@@ -28,12 +30,14 @@ curl -X POST \
    "lastName": " "
  }' \
 'http://localhost:3000/api/org.coffeechain.Buyer'
+)
+echo $BUYER002
 
 # 
 # Growers
 # 
 echo "Register Grower: Ty"
-curl -X POST \
+GROWER_001=$(curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 -d '{
@@ -47,6 +51,8 @@ curl -X POST \
   "coffeeTypes": ["Arabica","Robusta"]
 }' \
 'http://localhost:3000/api/org.coffeechain.Grower'
+)
+echo $GROWER_001
 
 echo "Register Grower: Teo"
 GROWER_002=$(curl -X POST \
@@ -86,16 +92,17 @@ echo $REGULATOR_001
 # Issue a Certificate
 # 
 echo "Register Regulator: Ty"
-curl -X POST \
+CERT001=$(curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
 -d '{
   "$class": "org.coffeechain.IssueCertificate",
-  "issuer": {},
-  "grower": {},
+  "issuer": "r001",
+  "grower": "g001",
   "valid": true,
   "certificateId": "c001",
-  "description": "QC",
-  "timestamp": "2018-04-22T05:12:01.194Z"
+  "description": "QC"
 }' \
 'http://localhost:3000/api/org.coffeechain.Regulator'
+)
+echo $CERT001
