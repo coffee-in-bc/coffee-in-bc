@@ -23,7 +23,7 @@ rule NetworkAdminSystem {
 }
 
 //===================================================================================
-// READ RULES
+// GROWER
 //===================================================================================
 
 rule GrowerCanCreateAndReadTheirCoffee {
@@ -32,24 +32,6 @@ rule GrowerCanCreateAndReadTheirCoffee {
     operation: CREATE, READ
     resource(r): "org.coffeechain.Coffee"
     condition: (p.getIdentifier() === r.grower.getIdentifier())
-    action: ALLOW
-}
-
-rule BuyerCanCreateAndReadTheirRequests {
-    description: "Buyer can read all their requests"
-    participant(p): "org.coffeechain.Buyer"
-    operation: CREATE, READ
-    resource(r): "org.coffeechain.Request"
-    condition: (p.getIdentifier() === r.buyer.getIdentifier())
-    action: ALLOW
-}
-
-rule RegulatorCanReadAndUpdateTheirCertificate {
-    description: "Regulator can read and modify certificates"
-    participant(p): "org.coffeechain.Regulator"
-    operation: CREATE, READ, UPDATE
-    resource(r): "org.coffeechain.Certificate"
-    condition: (p.getIdentifier() === r.issuer.getIdentifier())
     action: ALLOW
 }
 
@@ -62,17 +44,53 @@ rule GrowerCanOnlyReadTheirCertificate {
     action: ALLOW
 }
 
-rule BuyerCanReadAllCertificates {
-    description: "Buyer can read all certificates"
-    participant: "org.coffeechain.Buyer"
+rule GrowerCanPublishCoffee {
+    description: "Grower can publish coffee"
+    participant(p): "org.coffeechain.Grower"
+    operation: CREATE
+    resource(r): "org.coffeechain.PublishCoffee"
+    condition: (p.getIdentifier() === r.grower.getIdentifier())
+    action: ALLOW
+}
+
+rule GrowerCanCreateAndReadTheirOffer {
+    description: "Grower can create and read their offer"
+    participant(p): "org.coffeechain.Grower"
+    operation: READ, CREATE
+    resource(r): "org.coffeechain.Offer"
+    condition: (p.getIdentifier() === r.grower.getIdentifier())
+    action: ALLOW
+}
+
+rule GrowerCanSendOffer {
+    description: "Grower can send offer"
+    participant(p): "org.coffeechain.Grower"
+    operation: CREATE
+    resource(r): "org.coffeechain.SendOffer"
+    condition: (p.getIdentifier() === r.grower.getIdentifier())
+    action: ALLOW
+}
+
+rule GrowerCanReadRequests {
+    description: "Grower can read requests"
+    participant: "org.coffeechain.Grower"
     operation: READ
-    resource: "org.coffeechain.Certificate"
+    resource: "org.coffeechain.Request"
     action: ALLOW
 }
 
 //===================================================================================
-// SUBMIT TRANSACTION
+// BUYER
 //===================================================================================
+
+rule BuyerCanCreateAndReadTheirRequests {
+    description: "Buyer can read all their requests"
+    participant(p): "org.coffeechain.Buyer"
+    operation: CREATE, READ
+    resource(r): "org.coffeechain.Request"
+    condition: (p.getIdentifier() === r.buyer.getIdentifier())
+    action: ALLOW
+}
 
 rule BuyerCanSendRequest {
     description: "Buyer can send requests"
@@ -83,16 +101,44 @@ rule BuyerCanSendRequest {
     action: ALLOW
 }
 
-rule GrowerCanPublishCoffee {
-    description: "Grower can publish coffee"
-    participant(p): "org.coffeechain.Grower"
-    operation: CREATE
-    resource(r): "org.coffeechain.PublishCoffee"
-    condition: (p.getIdentifier() === r.grower.getIdentifier())
+rule BuyerCanReadAllCertificates {
+    description: "Buyer can read all certificates"
+    participant: "org.coffeechain.Buyer"
+    operation: READ
+    resource: "org.coffeechain.Certificate"
     action: ALLOW
 }
 
-// Certificate
+rule BuyerCanReadAndUpdateOffer {
+    description: "Buyer can read and update offer"
+    participant(p): "org.coffeechain.Buyer"
+    operation: READ, UPDATE
+    resource(r): "org.coffeechain.Offer"
+    condition: (p.getIdentifier() === r.request.buyer.getIdentifier())
+    action: ALLOW
+}
+
+rule BuyerCanAcceptOffer {
+    description: "Buyer can accept offer"
+    participant(p): "org.coffeechain.Buyer"
+    operation: CREATE
+    resource(r): "org.coffeechain.AcceptOffer"
+    condition: (p.getIdentifier() === r.offer.request.buyer.getIdentifier())
+    action: ALLOW
+}
+
+//===================================================================================
+// REGULATOR
+//===================================================================================
+
+rule RegulatorCanReadAndUpdateTheirCertificate {
+    description: "Regulator can read and modify certificates"
+    participant(p): "org.coffeechain.Regulator"
+    operation: CREATE, READ, UPDATE
+    resource(r): "org.coffeechain.Certificate"
+    condition: (p.getIdentifier() === r.issuer.getIdentifier())
+    action: ALLOW
+}
 
 rule SubmitCertificate {
     description: "Regulator can issue a certificate"
@@ -102,6 +148,17 @@ rule SubmitCertificate {
     condition: (p.getIdentifier() === r.issuer.getIdentifier())
     action: ALLOW
 }
+
+rule RegulatorCanCancelCertificate {
+    description: "Regulator can cancel certificates"
+    participant(p): "org.coffeechain.Regulator"
+    operation: CREATE
+    resource(r): "org.coffeechain.CancelCertificate"
+    condition: (p.getIdentifier() === r.certificate.issuer.getIdentifier())
+    action: ALLOW
+}
+
+
 // /**
 //  * Sample access control list.
 //  */

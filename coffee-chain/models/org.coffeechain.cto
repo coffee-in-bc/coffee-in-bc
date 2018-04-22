@@ -54,7 +54,7 @@ asset Request identified by requestId {
 asset Offer identified by offerId {
   o String offerId
   o Integer price range=[500,]
-  o Boolean accepted default=false
+  o Boolean accepted default = false
   --> Request request
   --> Grower grower
 }
@@ -96,11 +96,20 @@ transaction SendOffer {
   o Integer price range=[0,]
 }
 
+transaction AcceptOffer {
+  --> Offer offer
+}
+
 transaction IssueCertificate {
   --> Regulator issuer
   --> Grower grower
   o Boolean valid
   o String certificateId
+  o String description
+}
+
+transaction CancelCertificate {
+  --> Certificate certificate
   o String description
 }
 

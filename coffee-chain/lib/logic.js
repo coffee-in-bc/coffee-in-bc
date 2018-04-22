@@ -44,6 +44,10 @@ async function sendRequest(sendRequest) {
  * @transaction
  */
 async function sendOffer(sendOffer) {
+    if (sendOffer.price > sendOffer.request.maxPrice) {
+        throw "Offer price is higher than Request maxPrice"
+    }
+
     let factory = getFactory()
 
     let offer = factory.newResource('org.coffeechain', 'Offer', sendOffer.offerId)
@@ -53,6 +57,18 @@ async function sendOffer(sendOffer) {
 
     const registryOffer = await getAssetRegistry("org.coffeechain.Offer")
     await registryOffer.add(offer)
+}
+
+/**
+ * Accept Offer
+ * @param {org.coffeechain.AcceptOffer} acceptOffer
+ * @transaction
+ */
+async function acceptOffer(acceptOffer) {
+    acceptOffer.offer.accepted = true
+
+    const registryOffer = await getAssetRegistry("org.coffeechain.Offer")
+    await registryOffer.update(acceptOffer.offer)
 }
 
 /**
@@ -71,4 +87,17 @@ async function issueCertificate(issueCertificate) {
 
     const registryCertificate = await getAssetRegistry("org.coffeechain.Certificate")
     await registryCertificate.add(certificate)
+}
+
+/**
+ * Cancel Certificate
+ * @param {org.coffeechain.CancelCertificate} cancelCertificate
+ * @transaction
+ */
+async function cancelCertificate(cancelCertificate) {
+    cancelCertificate.certificate.valid = false
+    cancelCertificate.certificate.description = cancelCertificate.description
+
+    const registryCertificate = await getAssetRegistry("org.coffeechain.Certificate")
+    await registryCertificate.update(cancelCertificate.certificate)
 }
