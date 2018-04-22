@@ -10,7 +10,7 @@ BUYER001=$(curl -X POST \
 --header 'Accept: application/json' \
 -d '{
    "$class": "org.coffeechain.Buyer",
-   "buyerId": "b100",
+   "buyerId": "b001",
    "firstName": "Workshop Coffee",
    "lastName": " "
  }' \
@@ -25,7 +25,7 @@ BUYER002=$(curl -X POST \
 --header 'Accept: application/json' \
 -d '{
    "$class": "org.coffeechain.Buyer",
-   "buyerId": "b101",
+   "buyerId": "b002",
    "firstName": "The Coffee House",
    "lastName": " "
  }' \
@@ -91,7 +91,7 @@ echo $REGULATOR_001
 # 
 # Issue a Certificate
 # 
-echo "Register Regulator: Ty"
+echo "Give certificate to grower g001"
 CERT001=$(curl -X POST \
 --header 'Content-Type: application/json' \
 --header 'Accept: application/json' \
@@ -100,9 +100,30 @@ CERT001=$(curl -X POST \
   "issuer": "r001",
   "grower": "g001",
   "valid": true,
-  "certificateId": "c001",
+  "certificateId": "cer001",
   "description": "QC"
 }' \
 'http://localhost:3000/api/org.coffeechain.Regulator'
 )
 echo $CERT001
+
+#
+# Make a request asset
+# 
+echo "Create first request"
+REQ001=$(curl -X POST \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+-d '{
+  "$class": "org.coffeechain.Request",
+  "requestId": "req001",
+  "coffeeType": "string",
+  "quantityInKg": 10,
+  "maxPrice": 250000,
+  "region": "Dalat",
+  "dateToReceive": "2018-04-30T05:12:01.340Z",
+  "buyer": "b001"
+}' \
+'http://localhost:3000/api/org.coffeechain.Regulator'
+)
+echo $REQ001
