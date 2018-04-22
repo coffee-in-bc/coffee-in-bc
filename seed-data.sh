@@ -103,7 +103,7 @@ CERT001=$(curl -X POST \
   "certificateId": "cer001",
   "description": "QC"
 }' \
-'http://localhost:3000/api/org.coffeechain.Regulator'
+'http://localhost:3000/api/org.coffeechain.IssueCertificate'
 )
 echo $CERT001
 
@@ -124,6 +124,6 @@ REQ001=$(curl -X POST \
   "dateToReceive": "2018-04-30T05:12:01.340Z",
   "buyer": "b001"
 }' \
-'http://localhost:3000/api/org.coffeechain.Regulator'
+'http://localhost:3000/api/org.coffeechain.Request'
 )
 echo $REQ001
