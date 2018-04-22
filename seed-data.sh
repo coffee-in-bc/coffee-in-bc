@@ -64,3 +64,18 @@ curl -X POST \
 }' \
 'http://localhost:3000/api/org.coffeechain.Grower'
 
+# 
+# Regulator
+# 
+echo "Register Regulator: Ty"
+curl -X POST \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+-d '{
+  "$class": "org.coffeechain.Regulator",
+  "regulatorId": "r001",
+  "regulatorOrgName": "VietGAP"
+}' \
+'http://localhost:3000/api/org.coffeechain.Regulator'
+
+
