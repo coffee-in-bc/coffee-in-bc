@@ -47,3 +47,20 @@ curl -X POST \
   "coffeeTypes": ["Arabica","Robusta"]
 }' \
 'http://localhost:3000/api/org.coffeechain.Grower'
+
+echo "Register Grower: Teo"
+curl -X POST \
+--header 'Content-Type: application/json' \
+--header 'Accept: application/json' \
+-d '{
+  "$class": "org.coffeechain.Grower",
+  "growerId": "g002",
+  "firstName": "Teof",
+  "lastName": "Teol",
+  "farmName": "Teo Co.",
+  "farmAltitude": 1000,
+  "farmRegion": "Buon Me Thuoc",
+  "coffeeTypes": ["Arabica","Robusta"]
+}' \
+'http://localhost:3000/api/org.coffeechain.Grower'
+
