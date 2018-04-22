@@ -1,4 +1,4 @@
-Feature: Sample
+Feature: Grower
 
     Background:
         Given I have deployed the business network definition ..
@@ -8,7 +8,7 @@ Feature: Sample
             {"$class":"org.coffeechain.Grower",
             "growerId":"gAlice@email.com", "firstName":"Alice", "lastName":"A",
             "farmName":"CoffeeGo", "farmAltitude":1500, "farmRegion":"Southern",
-            "coffeeTypes":["Arabica,Robusta"]}
+            "coffeeTypes":["Arabica","Robusta"]}
             ]
             """
         And I have added the following participants of type org.coffeechain.Buyer
@@ -23,9 +23,10 @@ Feature: Sample
         And I have added the following assets of type org.coffeechain.Request
             | requestId | coffeeType | quantityInKg | maxPrice | region   | dateToReceive | buyer          |
             | r1        | Arabica    | 2            | 100000   | Southern | 2018-04-21    | bBob@email.com |
+            | r2        | CoffeeA    | 2            | 100000   | Southern | 2018-04-21    | bBob@email.com |
         And I have added the following assets of type org.coffeechain.Certificate
             | certificateId | description  | grower           | issuer          | valid |
-            | cer1          | good quality | gAlice@email.com | rChad@email.com | true |
+            | cer1          | good quality | gAlice@email.com | rChad@email.com | true  |
         And I have issued the participant org.coffeechain.Grower#gAlice@email.com with the identity gAlice
         And I have issued the participant org.coffeechain.Buyer#bBob@email.com with the identity bBob
         And I have issued the participant org.coffeechain.Regulator#rChad@email.com with the identity rChad
@@ -39,43 +40,16 @@ Feature: Sample
         Then I should have the following assets of type org.coffeechain.Coffee
             | coffeeId  | coffeeType | quantityInStockInKg | dateOfHarvest | grower           |
             | c1        | Arabica    | 5                   | 2018-04-11    | gAlice@email.com |
-            
-    Scenario: Bob can read his Request
-        When I use the identity bBob
-        Then I should have the following assets of type org.coffeechain.Request
-            | requestId | coffeeType | quantityInKg | maxPrice | region   | dateToReceive | buyer          |
-            | r1        | Arabica    | 2            | 100000   | Southern | 2018-04-21    | bBob@email.com |
-
-    Scenario: Chad can read his Certificate
-        When I use the identity rChad
-        Then I should have the following assets of type org.coffeechain.Certificate
-            | certificateId | description  | grower           | issuer          | valid |
-            | cer1          | good quality | gAlice@email.com | rChad@email.com | true |
 
     Scenario: Alice can read her Certificate
         When I use the identity gAlice
         Then I should have the following assets of type org.coffeechain.Certificate
             | certificateId | description  | grower           | issuer          | valid |
-            | cer1          | good quality | gAlice@email.com | rChad@email.com | true |
-
-    Scenario: Bob can read Certificate
-        When I use the identity bBob
-        Then I should have the following assets of type org.coffeechain.Certificate
-            | certificateId | description  | grower           | issuer          | valid |
-            | cer1          | good quality | gAlice@email.com | rChad@email.com | true |
+            | cer1          | good quality | gAlice@email.com | rChad@email.com | true  |
 
     #===========================================================================================================================
-    # CREATE ASSETS
+    # SUBMIT TRANSACTION
     #===========================================================================================================================
-    
-    Scenario: Bob can send coffee Request
-        When I use the identity bBob
-        And I submit the following transaction of type org.coffeechain.SendRequest
-            | buyer          | requestId | coffeeType | quantityInKg | maxPrice | region   | dateToReceive |
-            | bBob@email.com | r2        | Arabica    | 2            | 100000   | Southern | 2018-04-23    |
-        Then I should have the following assets of type org.coffeechain.Request
-            | requestId | coffeeType | quantityInKg | maxPrice | region   | dateToReceive | buyer          |
-            | r2        | Arabica    | 2            | 100000   | Southern | 2018-04-23    | bBob@email.com |
 
     Scenario: Alice can publish Coffee
         When I use the identity gAlice
@@ -85,6 +59,25 @@ Feature: Sample
         Then I should have the following assets of type org.coffeechain.Coffee
             | coffeeId  | coffeeType | quantityInStockInKg | dateOfHarvest | grower           |
             | c2        | Robusta    | 10                  | 2018-04-12    | gAlice@email.com |
+
+    Scenario: Alice can make an Offer
+        When I use the identity gAlice
+        And I submit the following transaction of type org.coffeechain.SendOffer
+            | request | grower           | offerId | price  |
+            | r1      | gAlice@email.com | o1      | 100000 |
+        Then I should have the following assets
+            """
+            [
+            {"$class":"org.coffeechain.Offer",
+            "offerId":"o1", "price":100000, "accepted":false, "request":"r1", "grower":"gAlice@email.com"}
+            ]
+            """
+
+    Scenario: Alice cannot make an Offer with price exceeds maxPrice of Request
+        And I submit the following transaction of type org.coffeechain.SendOffer
+            | request | grower           | offerId | price  |
+            | r1      | gAlice@email.com | o2      | 300000 |
+        Then I should get an error matching /Offer price is higher than Request maxPrice/
 
     # Scenario: Alice cannot add assets that Bob owns
     #     When I use the identity alice1
