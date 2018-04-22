@@ -5,7 +5,6 @@
  * @param {org.coffeechain.PublishCoffee} publishCoffee
  * @transaction
  */
-
 async function publishCoffee(publishCoffee) {
     let factory = getFactory()
 
@@ -24,7 +23,6 @@ async function publishCoffee(publishCoffee) {
  * @param {org.coffeechain.SendRequest} sendRequest
  * @transaction
  */
-
 async function sendRequest(sendRequest) {
     let factory = getFactory()
 
@@ -45,8 +43,7 @@ async function sendRequest(sendRequest) {
  * @param {org.coffeechain.SendOffer} sendOffer
  * @transaction
  */
-
- async function sendOffer(sendOffer) {
+async function sendOffer(sendOffer) {
     let factory = getFactory()
 
     let offer = factory.newResource('org.coffeechain', 'Offer', sendOffer.offerId)
@@ -56,14 +53,13 @@ async function sendRequest(sendRequest) {
 
     const registryOffer = await getAssetRegistry("org.coffeechain.Offer")
     await registryOffer.add(offer)
- }
+}
 
- /**
-  * Issue Quality Certificate
-  * @param {org.coffeechain.IssueCertificate} issueCertificate
-  * @transaction
-  */
-
+/**
+ * Issue Quality Certificate
+ * @param {org.coffeechain.IssueCertificate} issueCertificate
+ * @transaction
+ */
 async function issueCertificate(issueCertificate) {
     let factory = getFactory()
 
@@ -71,8 +67,8 @@ async function issueCertificate(issueCertificate) {
     certificate.description = issueCertificate.description
     certificate.grower = issueCertificate.grower
     certificate.issuer = issueCertificate.issuer
+    certificate.valid = issueCertificate.valid
 
     const registryCertificate = await getAssetRegistry("org.coffeechain.Certificate")
     await registryCertificate.add(certificate)
 }
-
