@@ -79,6 +79,15 @@ rule GrowerCanReadRequests {
     action: ALLOW
 }
 
+rule GrowerCanReadDeals {
+    description: "Grower can read deals"
+    participant(p): "org.coffeechain.Grower"
+    operation: READ
+    resource(r): "org.coffeechain.Deal"
+    condition: (p.getIdentifier() === r.grower.getIdentifier())
+    action: ALLOW
+}
+
 //===================================================================================
 // BUYER
 //===================================================================================
@@ -124,6 +133,15 @@ rule BuyerCanAcceptOffer {
     operation: CREATE
     resource(r): "org.coffeechain.AcceptOffer"
     condition: (p.getIdentifier() === r.offer.request.buyer.getIdentifier())
+    action: ALLOW
+}
+
+rule BuyerCanReadAndCreateDeals {
+    description: "Buyer can create and read their deals"
+    participant(p): "org.coffeechain.Buyer"
+    operation: CREATE, READ
+    resource(r): "org.coffeechain.Deal"
+    condition: (p.getIdentifier() === r.buyer.getIdentifier())
     action: ALLOW
 }
 

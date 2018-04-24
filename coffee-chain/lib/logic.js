@@ -65,10 +65,32 @@ async function sendOffer(sendOffer) {
  * @transaction
  */
 async function acceptOffer(acceptOffer) {
-    acceptOffer.offer.accepted = true
+    let offer = acceptOffer.offer
+    let request = offer.request
+    let grower = offer.grower
+    let buyer = request.buyer
+    let certificate = offer.certificate
+
+    offer.accepted = true
+
+    let factory = getFactory()
+
+    let deal = factory.newResource('org.coffeechain', 'Deal', acceptOffer.dealId)
+    deal.coffeeType = request.coffeeType
+    deal.farmName = grower.farmName
+    deal.farmRegion = grower.farmRegion
+    deal.farmAltitude = grower.farmAltitude
+    deal.certificateOrgName = certificate.issuer.regulatorOrgName
+    deal.quantityInKg = request.quantityInKg
+    deal.dateOfTransaction = acceptOffer.dateOfTransaction  
+    deal.grower = grower
+    deal.buyer = buyer  
 
     const registryOffer = await getAssetRegistry("org.coffeechain.Offer")
     await registryOffer.update(acceptOffer.offer)
+
+    const registryDeal = await getAssetRegistry("org.coffeechain.Deal")
+    await registryDeal.add(deal)
 }
 
 /**
