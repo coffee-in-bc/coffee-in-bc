@@ -55,8 +55,13 @@ async function sendOffer(sendOffer) {
     offer.grower = sendOffer.grower
     offer.request = sendOffer.request
 
+    sendOffer.request.offers.push(offer)    
+
     const registryOffer = await getAssetRegistry("org.coffeechain.Offer")
     await registryOffer.add(offer)
+
+    const registryRequest = await getAssetRegistry("org.coffeechain.Request")
+    await registryRequest.update(sendOffer.request)
 }
 
 /**

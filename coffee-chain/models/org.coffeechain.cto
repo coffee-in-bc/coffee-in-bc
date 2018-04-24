@@ -47,7 +47,8 @@ asset Request identified by requestId {
   o Double quantityInKg range=[0.0,]
   o Integer maxPrice range=[500,]
   o String region
-  o DateTime dateToReceive 
+  o DateTime dateToReceive
+  --> Offer[] offers optional
   --> Buyer buyer
 }
 
