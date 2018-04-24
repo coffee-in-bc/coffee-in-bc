@@ -57,6 +57,7 @@ asset Offer identified by offerId {
   o Boolean accepted default = false
   --> Request request
   --> Grower grower
+  --> Certificate certificate
 }
 
 asset Certificate identified by certificateId {
@@ -65,6 +66,19 @@ asset Certificate identified by certificateId {
   o Boolean valid
   --> Grower grower
   --> Regulator issuer
+}
+
+asset Deal identified by dealId {
+  o String dealId
+  o String coffeeType
+  o String farmName
+  o String farmRegion
+  o String farmAltitude
+  o String certificateOrgName
+  o Double quantityInKg
+  o DateTime dateOfTransaction
+  --> Grower grower
+  --> Buyer buyer
 }
 
 //===========================================================
@@ -92,12 +106,15 @@ transaction SendRequest {
 transaction SendOffer {
   --> Request request
   --> Grower grower
+  --> Certificate certificate
   o String offerId
   o Integer price range=[0,]
 }
 
 transaction AcceptOffer {
   --> Offer offer
+  o String dealId
+  o String dateOfTransaction
 }
 
 transaction IssueCertificate {
