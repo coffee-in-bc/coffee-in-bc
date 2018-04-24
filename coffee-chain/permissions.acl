@@ -88,6 +88,15 @@ rule GrowerCanReadDeals {
     action: ALLOW
 }
 
+rule GrowerCanUpdateRequestsInTransaction {
+  description: "Growers can update a Request when they send Offer to it"
+  participant: "org.coffeechain.Grower"
+  operation: UPDATE
+  resource: "org.coffeechain.Request"
+  transaction: "org.coffeechain.SendOffer"
+  action: ALLOW
+}
+
 //===================================================================================
 // BUYER
 //===================================================================================
