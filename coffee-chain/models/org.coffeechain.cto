@@ -94,8 +94,6 @@ transaction SendOffer {
 
 transaction AcceptOffer {
   --> Offer offer
-  o String dealId
-  o String dateOfTransaction
 }
 
 transaction IssueCertificate {
