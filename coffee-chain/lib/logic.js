@@ -54,9 +54,7 @@ async function sendOffer(sendOffer) {
     offer.price = sendOffer.price
     offer.grower = sendOffer.grower
     offer.request = sendOffer.request
-
-    sendOffer.request.offers.push(offer)    
-
+    
     const registryOffer = await getAssetRegistry("org.coffeechain.Offer")
     await registryOffer.add(offer)
 
@@ -74,7 +72,6 @@ async function acceptOffer(acceptOffer) {
     let request = offer.request
     let grower = offer.grower
     let buyer = request.buyer
-    let certificate = offer.certificate
 
     offer.accepted = true
 
@@ -85,7 +82,6 @@ async function acceptOffer(acceptOffer) {
     deal.farmName = grower.farmName
     deal.farmRegion = grower.farmRegion
     deal.farmAltitude = grower.farmAltitude
-    deal.certificateOrgName = certificate.issuer.regulatorOrgName
     deal.quantityInKg = request.quantityInKg
     deal.dateOfTransaction = acceptOffer.dateOfTransaction  
     deal.grower = grower
