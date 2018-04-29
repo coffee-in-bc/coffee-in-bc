@@ -64,7 +64,7 @@ asset Deal identified by dealId {
   o String coffeeType
   o String farmName
   o String farmRegion
-  o String farmAltitude
+  o Integer farmAltitude
   o Double quantityInKg
   o DateTime dateOfTransaction
   --> Grower grower
