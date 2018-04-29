@@ -21,7 +21,6 @@ participant Grower identified by growerId {
   o String farmName
   o Integer farmAltitude range=[0,]
   o String farmRegion
-  o String[] coffeeTypes
 }
 
 participant Regulator identified by regulatorId {
@@ -33,14 +32,6 @@ participant Regulator identified by regulatorId {
 // ASSETS
 //===========================================================
 
-asset Coffee identified by coffeeId {
-  o String coffeeId
-  o String coffeeType
-  o Double quantityInStockInKg range=[0.0,]
-  o DateTime dateOfHarvest
-  --> Grower grower
-}
-
 asset Request identified by requestId {
   o String requestId
   o String coffeeType
@@ -49,7 +40,6 @@ asset Request identified by requestId {
   o String region
   o DateTime dateToReceive
   o Boolean closed default=false
-  --> Offer[] offers optional
   --> Buyer buyer
 }
 
@@ -59,7 +49,6 @@ asset Offer identified by offerId {
   o Boolean accepted default = false
   --> Request request
   --> Grower grower
-  --> Certificate certificate optional
 }
 
 asset Certificate identified by certificateId {
@@ -76,7 +65,6 @@ asset Deal identified by dealId {
   o String farmName
   o String farmRegion
   o String farmAltitude
-  o String certificateOrgName optional
   o Double quantityInKg
   o DateTime dateOfTransaction
   --> Grower grower
@@ -86,14 +74,6 @@ asset Deal identified by dealId {
 //===========================================================
 // TRANSACTIONS
 //===========================================================
-
-transaction PublishCoffee {
-  --> Grower grower
-  o String coffeeId
-  o String coffeeType
-  o Double quantityInStockInKg
-  o DateTime dateOfHarvest
-}
 
 transaction SendRequest {
   --> Buyer buyer
@@ -108,7 +88,6 @@ transaction SendRequest {
 transaction SendOffer {
   --> Request request
   --> Grower grower
-  --> Certificate certificate optional
   o String offerId
   o Integer price range=[0,]
 }
