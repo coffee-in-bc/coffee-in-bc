@@ -26,29 +26,11 @@ rule NetworkAdminSystem {
 // GROWER
 //===================================================================================
 
-rule GrowerCanCreateAndReadTheirCoffee {
-    description: "Grower can read all their coffee"
-    participant(p): "org.coffeechain.Grower"
-    operation: CREATE, READ
-    resource(r): "org.coffeechain.Coffee"
-    condition: (p.getIdentifier() === r.grower.getIdentifier())
-    action: ALLOW
-}
-
 rule GrowerCanOnlyReadTheirCertificate {
     description: "Grower can only read certificates"
     participant(p): "org.coffeechain.Grower"
     operation: READ
     resource(r): "org.coffeechain.Certificate"
-    condition: (p.getIdentifier() === r.grower.getIdentifier())
-    action: ALLOW
-}
-
-rule GrowerCanPublishCoffee {
-    description: "Grower can publish coffee"
-    participant(p): "org.coffeechain.Grower"
-    operation: CREATE
-    resource(r): "org.coffeechain.PublishCoffee"
     condition: (p.getIdentifier() === r.grower.getIdentifier())
     action: ALLOW
 }
