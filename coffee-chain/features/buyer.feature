@@ -76,15 +76,15 @@ Feature: Grower
             | requestId | coffeeType | quantityInKg | maxPrice | region   | dateToReceive | buyer          |
             | r2        | Arabica    | 2            | 100000   | Southern | 2018-04-23    | bBob@email.com |
 
-    Scenario: Bob can accept an Offer
-        When I use the identity bBob
-        And I submit the following transaction of type org.coffeechain.AcceptOffer
-            | offer |
-            | o1    |
-        Then I should have the following assets
-            """
-            [
-            {"$class":"org.coffeechain.Offer",
-            "offerId":"o1", "price":300000, "accepted":true, "request":"r1", "grower":"gAlice@email.com"}
-            ]
-            """
+    # Scenario: Bob can accept an Offer
+    #     When I use the identity bBob
+    #     And I submit the following transaction of type org.coffeechain.AcceptOffer
+    #         | offer | dealId | dateOfTransaction |
+    #         | o1    | d1     | 2018-04-24        |
+    #     Then I should have the following assets
+    #         """
+    #         [
+    #         {"$class":"org.coffeechain.Offer",
+    #         "offerId":"o1", "price":300000, "accepted":true, "request":"r1", "grower":"gAlice@email.com"}
+    #         ]
+    #         """

@@ -48,6 +48,7 @@ asset Request identified by requestId {
   o Integer maxPrice range=[500,]
   o String region
   o DateTime dateToReceive
+  o Boolean closed default=false
   --> Offer[] offers optional
   --> Buyer buyer
 }
@@ -58,7 +59,7 @@ asset Offer identified by offerId {
   o Boolean accepted default = false
   --> Request request
   --> Grower grower
-  --> Certificate certificate
+  --> Certificate certificate optional
 }
 
 asset Certificate identified by certificateId {
@@ -75,7 +76,7 @@ asset Deal identified by dealId {
   o String farmName
   o String farmRegion
   o String farmAltitude
-  o String certificateOrgName
+  o String certificateOrgName optional
   o Double quantityInKg
   o DateTime dateOfTransaction
   --> Grower grower
@@ -107,7 +108,7 @@ transaction SendRequest {
 transaction SendOffer {
   --> Request request
   --> Grower grower
-  --> Certificate certificate
+  --> Certificate certificate optional
   o String offerId
   o Integer price range=[0,]
 }
