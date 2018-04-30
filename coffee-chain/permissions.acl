@@ -79,6 +79,14 @@ rule GrowerCanUpdateRequestsInTransaction {
   action: ALLOW
 }
 
+rule GrowerCanSeeBuyers {
+  description: "Growers can see all Buyers"
+  participant: "org.coffeechain.Grower"
+  operation: READ
+  resource: "org.coffeechain.Buyer"
+  action: ALLOW
+}
+
 //===================================================================================
 // BUYER
 //===================================================================================

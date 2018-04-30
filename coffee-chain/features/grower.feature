@@ -72,6 +72,15 @@ Feature: Grower
             "offerId":"o1", "price":100000, "accepted":false, "request":"r1", "grower":"gAlice@email.com"}
             ]
             """
+        Then I use the identity bBob
+        And I should have the following assets
+            """
+            [
+            {"$class":"org.coffeechain.Request",
+            "requestId":"r1", "coffeeType":"Arabica", "quantityInKg":2, "maxPrice":100000, "region":"Southern",
+            "dateToReceive":"2018-04-21", "offers":["o1"], "buyer":"bBob@email.com"}
+            ]
+            """
 
     Scenario: Alice cannot make an Offer with price exceeds maxPrice of Request
         And I submit the following transaction of type org.coffeechain.SendOffer

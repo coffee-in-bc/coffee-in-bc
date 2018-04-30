@@ -1,24 +1,6 @@
 'use strict';
 
 /**
- * Publish Coffee
- * @param {org.coffeechain.PublishCoffee} publishCoffee
- * @transaction
- */
-async function publishCoffee(publishCoffee) {
-    let factory = getFactory()
-
-    let coffee = factory.newResource('org.coffeechain', 'Coffee', publishCoffee.coffeeId)
-    coffee.coffeeType = publishCoffee.coffeeType
-    coffee.quantityInStockInKg = publishCoffee.quantityInStockInKg
-    coffee.dateOfHarvest = new Date(publishCoffee.dateOfHarvest)
-    coffee.grower = publishCoffee.grower
-
-    const registryCoffee = await getAssetRegistry("org.coffeechain.Coffee")
-    await registryCoffee.add(coffee)
-}
-
-/**
  * Send Coffee Request
  * @param {org.coffeechain.SendRequest} sendRequest
  * @transaction
@@ -54,9 +36,7 @@ async function sendOffer(sendOffer) {
     offer.price = sendOffer.price
     offer.grower = sendOffer.grower
     offer.request = sendOffer.request
-
-    sendOffer.request.offers.push(offer)    
-
+    
     const registryOffer = await getAssetRegistry("org.coffeechain.Offer")
     await registryOffer.add(offer)
 
@@ -74,20 +54,20 @@ async function acceptOffer(acceptOffer) {
     let request = offer.request
     let grower = offer.grower
     let buyer = request.buyer
-    let certificate = offer.certificate
 
     offer.accepted = true
 
     let factory = getFactory()
+    
+    let dealId = offer.offerId + request.requestId
 
-    let deal = factory.newResource('org.coffeechain', 'Deal', acceptOffer.dealId)
+    let deal = factory.newResource('org.coffeechain', 'Deal', dealId)
     deal.coffeeType = request.coffeeType
     deal.farmName = grower.farmName
     deal.farmRegion = grower.farmRegion
     deal.farmAltitude = grower.farmAltitude
-    deal.certificateOrgName = certificate.issuer.regulatorOrgName
     deal.quantityInKg = request.quantityInKg
-    deal.dateOfTransaction = acceptOffer.dateOfTransaction  
+    deal.dateOfTransaction = new Date()  
     deal.grower = grower
     deal.buyer = buyer  
 
