@@ -1,6 +1,6 @@
 {
   "name": "coffee-chain",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A supply blockchain for coffee",
   "scripts": {
     "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/sample-network.bna",
